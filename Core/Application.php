@@ -28,10 +28,11 @@ class Application implements RunnableInterface
     public function getComponent($key)
     {
 
-        $class = $this->config['components'][$key]['class'];
-        if (class_exists($class)) {
+        $factoryClass = $this->config['components'][$key]['factory'];
+        if (class_exists($factoryClass)) {
             $arguments = $this->config['components'][$key]['arguments'] ?? [];
-            $instance = new $class($arguments);
+            $factory = new $factoryClass($arguments);
+            $instance = $factory->createComponent();
             return $instance;
         }
 

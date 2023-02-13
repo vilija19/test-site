@@ -17,6 +17,8 @@ class HomeController
     {
         $data = ['title' => 'Home page'];
 
+        $productModel = new \Vilija19\App\Model\Product();
+
         $this->responce->setOutput('HomeView', $data);
 
     }
