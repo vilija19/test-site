@@ -6,6 +6,9 @@ return [
         'responce' => [
             'factory' => \Vilija19\Core\Components\ResponceFactory::class             
         ],
+        'orm' => [
+            'factory' => \Vilija19\Core\Components\Orm\SimpleOrmFactory::class            
+        ],
         'router' => [
             'factory' => \Vilija19\Core\Components\Routing\RouterFactory::class,
             'arguments' => [
@@ -16,7 +19,7 @@ return [
             ]            
         ],
         'storage' => [
-            'factory' => \Vilija19\Core\Components\DataBaseFactory::class,
+            'factory' => \Vilija19\Core\Components\Storage\DataBaseFactory::class,
             'arguments' => [
                 'host' => 'database',
                 'dbname' => 'test-site',

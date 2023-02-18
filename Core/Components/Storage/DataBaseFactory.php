@@ -1,6 +1,6 @@
 <?php
 
-namespace Vilija19\Core\Components;
+namespace Vilija19\Core\Components\Storage;
 
 use Vilija19\Core\Components\ComponentFactory;
 

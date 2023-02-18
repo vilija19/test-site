@@ -1,7 +1,5 @@
 <?php
 /**
- * роутер
- * 
  * @author Alex <billibons777@gmail.com>
  * @version 1.0
  */
