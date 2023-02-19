@@ -15,11 +15,16 @@ class HomeController
 
     public function index()
     {
-        $data = ['title' => 'Home page'];
+        $data['title'] = 'Product list';
+        $data['footer_text'] = 'Scanduweb Test assignment';
 
         $orm = application::getApp()->getComponent('orm');
         $orm->setModel(\Vilija19\App\Model\Product::class);
-        $products = $orm->getAll();
+        $data['products'] = $orm->getAll();
+
+        // $this->responce->setOutput('HeaderView', $data);
+        // $data['header'] = 'test';
+        // $data['footer'] = 'test';
 
         $this->responce->setOutput('HomeView', $data);
 

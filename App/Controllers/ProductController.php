@@ -6,7 +6,7 @@ class ProductController
 {
     public function view()
     {
-        echo 'Home controller ProductController view method';
+        echo 'ProductController view method';
     }
 
 }
