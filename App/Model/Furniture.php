@@ -6,14 +6,28 @@ use Vilija19\Core\Application;
 
 class Furniture extends Product
 {
-    public function __construct()
+    /**
+     * @var array Mandatory attribute IDs for this product type
+     */
+    protected $hasAttributesIDs = ['2'];
+
+    public function __construct($data=[])
     {
-        $this->name = 'Furniture';
-        $this->storage = Application::getApp()->getComponent('storage');
+        parent::__construct($data);
+        $this->attributes();
     }
 
-    public function writeAttributes(int $id, array $data = []): void
+    public function getAttributes(): array
     {
-        $this->storage->write($this->name, $id, $data);
+        return $this->attributes;
+    }
+
+    public function setAttributes(array $attributes = []): void
+    {
+        foreach ($this->attributes as $attrName => $value) {
+            if (isset($attributes[$attrName])) {
+                $this->attributes[$attrName] = $value;
+            }
+        }
     }
 }

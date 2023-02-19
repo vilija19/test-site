@@ -8,6 +8,7 @@ use Vilija19\Core\Application;
  * @property int $id // this is the product_id
  * @property int $attribute_id
  * @property string $value
+ * @property int  $is_serialized
  */
 class ProductAttribute extends ModelAbstract
 {
@@ -16,13 +17,15 @@ class ProductAttribute extends ModelAbstract
     protected $attribute_id;
     protected $name;
     protected $value;
+    protected $is_serialized;
     protected $attribute;
     
     public function __construct($data=[])
     {
-        $this->product_id = $data['product_id'];
+        $this->product_id = $data['id'];
         $this->attribute_id = $data['attribute_id'];
         $this->value = $data['value'];
+        $this->is_serialized = $data['is_serialized'];
         $this->attribute();
         $this->name = $this->attribute->name;          
     }

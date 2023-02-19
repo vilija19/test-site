@@ -3,6 +3,8 @@
 namespace Vilija19\App\Model;
 
 use Vilija19\Core\Application;
+use \Vilija19\Core\Exceptions\GetComponentException;
+
 
 /**
  * @property int $id
@@ -13,7 +15,7 @@ use Vilija19\Core\Application;
  * @property int $quantity
  * @property string $type
  */
-class Product extends ModelAbstract
+abstract class Product extends ModelAbstract
 {
     protected $storageObjectName = 'product';
     protected $id;
@@ -27,14 +29,16 @@ class Product extends ModelAbstract
     
     public function __construct($data=[])
     {
-
-        $this->id = $data['id'];
-        $this->sku = $data['sku'];
-        $this->name = $data['name'];
-        $this->price = $data['price'];
-        $this->status = $data['status'];
-        $this->quantity = $data['quantity'];
-        $this->type = $data['type'];        
+        if (!$data['sku'] || !$data['name']) {
+            throw new GetComponentException("Not enought data", 1);
+        }
+        $this->id = $data['id'] ?? null;
+        $this->sku = $data['sku'] ?? '';
+        $this->name = $data['name'] ?? '';
+        $this->price = $data['price'] ?? 0.00;
+        $this->status = $data['status'] ?? 0;
+        $this->quantity = $data['quantity'] ?? 0;
+        $this->type = $data['type'] ?? '';        
     }
 
 
@@ -73,13 +77,13 @@ class Product extends ModelAbstract
         }
     }
 
-    public function attributes(): array
+    public function attributes(): void
     {
         $orm = application::getApp()->getComponent('orm');
         $orm->setModel(\Vilija19\App\Model\ProductAttribute::class);
-        $this->attributes = $orm->getMany($this->id); 
-
-        return $this->attributes;
+        foreach ($orm->getMany($this->id) as $attribute) {
+            $this->attributes[$attribute->name] = $attribute; 
+        }
     }
 
     public function delete(int $id): void

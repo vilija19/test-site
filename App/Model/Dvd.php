@@ -6,15 +6,15 @@ use Vilija19\Core\Application;
 
 class Dvd extends Product
 {
-    protected $attributesS = [
-        'size'  => '',
-    ];
+    /**
+     * @var array Mandatory attribute IDs for this product type
+     */
+    protected $hasAttributesIDs = ['1'];
 
     public function __construct($data=[])
     {
         parent::__construct($data);
-
-        $attributes = $this->attributes();
+        $this->attributes();
     }
 
     public function getAttributes(): array

@@ -62,12 +62,11 @@ class SimpleOrm
     {
         $object = [];
         if (isset($data['type'])) {
-            $model = $data['type'];
+            $model = 'Vilija19\\App\\Model\\' . $data['type'];
         }else {
-            $model = str_replace('_','',$this->storageObjectName);
+            $model = $this->model;
         }
-        $modelFullName = 'Vilija19\\App\\Model\\' . $model;
-        $object = new $modelFullName($data);
+        $object = new $model($data);
         
         return $object;
     }
