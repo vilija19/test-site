@@ -2,11 +2,26 @@
 
 namespace Vilija19\App\Controllers;
 
+use Vilija19\Core\Application;
+
 class ProductController
 {
-    public function view()
+    private $responce;
+
+    public function __construct()
     {
-        echo 'ProductController view method';
+        $this->responce = Application::getApp()->getComponent('responce');
+    }
+
+    public function create()
+    {
+        $data['title'] = 'Add Product';
+        $data['footer_text'] = 'Scanduweb Test assignment';
+
+        $orm = application::getApp()->getComponent('orm');
+        $orm->setModel(\Vilija19\App\Model\Product::class);
+
+        $this->responce->setOutput('ProductCreate', $data);
     }
 
 }
