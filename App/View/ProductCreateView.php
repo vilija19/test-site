@@ -2,7 +2,7 @@
 
 namespace Vilija19\App\View;
 
-class ProductCreate implements \Vilija19\Core\Interfaces\RenderInterface
+class ProductCreateView implements \Vilija19\Core\Interfaces\RenderInterface
 {
     private $data;
 
@@ -16,13 +16,13 @@ class ProductCreate implements \Vilija19\Core\Interfaces\RenderInterface
         $view = '  <div class="row align-items-center">'.PHP_EOL;
         $view .= '      <div class="col-sm-10"><h1>' . $this->data['title']  . '</h1></div>'.PHP_EOL;
         $view .= '      <div class="col-sm-2">'.PHP_EOL;
-        $view .= '          <a href="/add-product" role="button" class="btn btn-primary">Save</a>'.PHP_EOL;
+        $view .= '          <button type="button"  @click="submit" class="btn btn-primary">Save</button>'.PHP_EOL;
         $view .= '          <button type="button" class="btn btn-danger">Cancel</button>'.PHP_EOL;
         $view .= '      </div>'.PHP_EOL;
         $view .= '  </div>'.PHP_EOL;
         $view .= '  <div class="row border-top">'.PHP_EOL;
 
-        $view .= '      <form id="product_form" method="POST" action="/add-product">'.PHP_EOL;
+        $view .= '      <form id="product_form" ref="form" v-on:submit="sub" method="POST" action="/add-product/store">'.PHP_EOL;
         $view .= '        <div class="row align-items-center">'.PHP_EOL;
         $view .= '        <div class="col-sm-8 mt-4">'.PHP_EOL;
         $view .= '            <div class="row mb-3 ">'.PHP_EOL;
@@ -46,23 +46,23 @@ class ProductCreate implements \Vilija19\Core\Interfaces\RenderInterface
         $view .= '            <div class="row mb-3 ">'.PHP_EOL;
         $view .= '                <label for="type" class="col-sm-2 col-form-label">Type Switcher</label>'.PHP_EOL;
         $view .= '                <div class="col-sm-3">'.PHP_EOL;
-        $view .= '                    <select id="productType" class="form-select" name="type" aria-label="Product type">'.PHP_EOL;
+        $view .= '                    <select id="productType" v-model="selectedOption" class="form-select" name="type" aria-label="Product type">'.PHP_EOL;
         $view .= '                        <option value="Dvd">DVD</option>'.PHP_EOL;
         $view .= '                        <option value="Book">Book</option>'.PHP_EOL;
         $view .= '                        <option value="Furniture">Furniture</option>'.PHP_EOL;
         $view .= '                    </select>'.PHP_EOL;
         $view .= '                </div>'.PHP_EOL;
         $view .= '            </div>'.PHP_EOL;
-        $view .= '            <div id="DVD">'.PHP_EOL;
+        $view .= '            <div id="DVD" v-if="selectedOption === \'Dvd\'">'.PHP_EOL;
         $view .= '              <div class="row mb-3">'.PHP_EOL;
         $view .= '                <label for="size" class="col-sm-2 col-form-label">Size (MB)</label>'.PHP_EOL;
         $view .= '                <div class="col-sm-3">'.PHP_EOL;
         $view .= '                    <input type="text" class="form-control" id="size" name="size">'.PHP_EOL;
         $view .= '                </div>'.PHP_EOL;
         $view .= '              </div>'.PHP_EOL;
-        $view .= '              <div id="DVD" class="row mb-3"> *Product Description*</div>'.PHP_EOL;
+        $view .= '              <div class="row mb-3"> *Product Description*</div>'.PHP_EOL;
         $view .= '            </div>'.PHP_EOL;
-        $view .= '            <div id="Furniture" style="display:none;">'.PHP_EOL;
+        $view .= '            <div id="Furniture" v-if="selectedOption === \'Furniture\'">'.PHP_EOL;
         $view .= '              <div class="row mb-3">'.PHP_EOL;
         $view .= '                <label for="height" class="col-sm-2 col-form-label">Height (CM)</label>'.PHP_EOL;
         $view .= '                <div class="col-sm-3">'.PHP_EOL;
@@ -81,9 +81,9 @@ class ProductCreate implements \Vilija19\Core\Interfaces\RenderInterface
         $view .= '                    <input type="text" class="form-control" id="length" name="length">'.PHP_EOL;
         $view .= '                </div>'.PHP_EOL;
         $view .= '              </div>'.PHP_EOL;
-        $view .= '              <div id="DVD" class="row mb-3"> *Product Description*</div>'.PHP_EOL;
+        $view .= '              <div class="row mb-3"> *Product Description*</div>'.PHP_EOL;
         $view .= '            </div>'.PHP_EOL;              
-        $view .= '            <div id="Book" style="display:none;">'.PHP_EOL;
+        $view .= '            <div id="Book" v-if="selectedOption === \'Book\'">'.PHP_EOL;
         $view .= '              <div class="row mb-3">'.PHP_EOL;
         $view .= '                <label for="weight" class="col-sm-2 col-form-label">Weight (KG)</label>'.PHP_EOL;
         $view .= '                <div class="col-sm-3">'.PHP_EOL;
@@ -101,6 +101,21 @@ class ProductCreate implements \Vilija19\Core\Interfaces\RenderInterface
         $view .= '  </div>'.PHP_EOL;
         $view .= '</div>'.PHP_EOL;
 
+        $view .= '<script>
+                    const app = new Vue({
+                        el: \'#app\',
+                        data: {
+                            selectedOption: \'Dvd\',
+                            sub: true
+                        },
+                        methods: {
+                            submit: function (event) {
+                                console.log(\'submit\');
+                                document.getElementById("product_form").submit();
+                            }
+                        }
+                    })
+                  </script>'.PHP_EOL;
         echo $view;
     }
 }

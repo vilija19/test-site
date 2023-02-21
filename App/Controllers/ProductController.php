@@ -21,7 +21,17 @@ class ProductController
         $orm = application::getApp()->getComponent('orm');
         $orm->setModel(\Vilija19\App\Model\Product::class);
 
-        $this->responce->setOutput('ProductCreate', $data);
+        $this->responce->setOutput('ProductCreateView', $data);
+    }
+    public function store()
+    {
+        // $orm = application::getApp()->getComponent('orm');
+        // $orm->setModel(\Vilija19\App\Model\Product::class);
+
+        // $orm->create($_POST);
+        echo 'Product created'; die;
+
+        $this->responce->redirect('/');
     }
 
 }
