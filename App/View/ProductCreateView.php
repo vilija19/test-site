@@ -46,7 +46,7 @@ class ProductCreateView implements \Vilija19\Core\Interfaces\RenderInterface
         $view .= '            <div class="row mb-3 ">'.PHP_EOL;
         $view .= '                <label for="type" class="col-sm-2 col-form-label">Type Switcher</label>'.PHP_EOL;
         $view .= '                <div class="col-sm-3">'.PHP_EOL;
-        $view .= '                    <select id="productType" v-model="selectedOption" placeholder="Select type" class="form-select required" name="type" aria-label="Product type">'.PHP_EOL;
+        $view .= '                    <select id="productType" v-model="selectedOption" placeholder="Select type" class="form-select" name="type" aria-label="Product type">'.PHP_EOL;
         $view .= '                        <option value="Dvd">DVD</option>'.PHP_EOL;
         $view .= '                        <option value="Book">Book</option>'.PHP_EOL;
         $view .= '                        <option value="Furniture">Furniture</option>'.PHP_EOL;
@@ -121,18 +121,36 @@ class ProductCreateView implements \Vilija19\Core\Interfaces\RenderInterface
                         },
                         methods: {
                             submit: function (event) {
-                                let isValid = true;
-                                this.$el.querySelectorAll(".required").forEach(function (item) {
 
-                                    if(item.value == \'\' && isValid == true) {
-                                        isValid = false;
-                                        alert(\'Please enter a \' + item.attributes.placeholder.value );
-                                        return false;
-                                    }
-                                });
-                                if(isValid) {
+                                if(this.ValidateInput()) {
                                     this.$el.querySelector("#product_form").submit();
                                 }
+                            },
+                            ValidateInput: function () {
+                                let isValid = true;
+                                let fieldsRegex = [
+                                    {name: \'name\', regex: /^[a-zA-Z0-9 ]{3,30}$/},
+                                    {name: \'sku\', regex: /^[a-zA-Z0-9]{3,30}$/},
+                                    {name: \'price\', regex: /^[0-9]{1,10}$/},
+                                    {name: \'size\', regex: /^[0-9]{1,10}$/},
+                                    {name: \'height\', regex: /^[0-9]{1,10}$/},
+                                    {name: \'width\', regex: /^[0-9]{1,10}$/},
+                                    {name: \'length\', regex: /^[0-9]{1,10}$/},
+                                    {name: \'weight\', regex: /^[0-9]{1,10}$/},
+                                ];
+                                this.$el.querySelectorAll(".required").forEach(function (item) {
+                                    let re = fieldsRegex.find(x => x.name == item.attributes.name.value);
+                                    if(isValid == true) {
+                                        if(item.value == \'\') {
+                                            alert(\'Please enter a \' + item.attributes.placeholder.value );
+                                            isValid = false;
+                                        }else if(re != undefined && !re.regex.test(item.value)){
+                                            isValid = false;
+                                            alert(\'provide the data of indicated type for a \' + item.attributes.placeholder.value );
+                                        }
+                                    }
+                                });
+                                return isValid;
                             }
                         }
                     })
