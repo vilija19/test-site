@@ -57,6 +57,14 @@ class SimpleOrm
 
         return $object;
     }
+    public function getByField(string $field, $value): object
+    {
+        $object = [];
+        $item = $this->storage->getByField($field, $value);
+        $object = $this->createObject($item);
+
+        return $object;
+    }
 
     protected function createObject(array $data = []): object
     {
@@ -70,8 +78,12 @@ class SimpleOrm
         
         return $object;
     }
-
-    protected function inspectClass()
+    /**
+     * Inspect class. Uses for finding storage object name (table name or file name)
+     * @param none
+     * @return array
+     */
+    protected function inspectClass(): array
     {   
         $classInfo = [];
         $reflectionClass = new \ReflectionClass($this->model);

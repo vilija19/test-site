@@ -33,5 +33,35 @@ class ProductController
 
         $this->responce->redirect('/');
     }
+    public function delete()
+    {
+        $orm = application::getApp()->getComponent('orm');
+        $orm->setModel(\Vilija19\App\Model\Product::class);
+
+        $orm->delete($_POST['id']);
+
+        $this->responce->redirect('/');
+    }
+    public function massDelete()
+    {
+        $orm = application::getApp()->getComponent('orm');
+        $orm->setModel(\Vilija19\App\Model\Product::class);
+
+        $orm->massDelete($_POST['select-product']);
+
+        $this->responce->redirect('/');
+    }
+    protected function validate($data)
+    {
+        $errors = [];
+        if (empty($data['sku'])) {
+            $errors['sku'] = 'SKU is required';
+        }
+        $orm = application::getApp()->getComponent('orm');
+        $orm->setModel(\Vilija19\App\Model\Product::class);
+        $product = $orm->getByField('sku', $data['sku']);
+
+        return $errors;
+    }
 
 }

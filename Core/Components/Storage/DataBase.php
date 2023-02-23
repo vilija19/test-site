@@ -91,4 +91,13 @@ class DataBase implements \Vilija19\Core\Interfaces\StorageInterface
         return $result;
     }
 
+    public function getByField(string $field, $value): array
+    {
+        $sql = 'SELECT * FROM ' . $this->table . ' WHERE ' . $field . ' = :value';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute( ['value' => $value]);
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+
 }
