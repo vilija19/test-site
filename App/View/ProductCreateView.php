@@ -17,7 +17,7 @@ class ProductCreateView implements \Vilija19\Core\Interfaces\RenderInterface
         $view .= '      <div class="col-sm-10"><h1>' . $this->data['title']  . '</h1></div>'.PHP_EOL;
         $view .= '      <div class="col-sm-2">'.PHP_EOL;
         $view .= '          <button type="button"  @click="submit" class="btn btn-primary">Save</button>'.PHP_EOL;
-        $view .= '          <button type="button" class="btn btn-danger">Cancel</button>'.PHP_EOL;
+        $view .= '          <a href="/" role="button" class="btn btn-danger">Cancel</a>'.PHP_EOL;
         $view .= '      </div>'.PHP_EOL;
         $view .= '  </div>'.PHP_EOL;
         $view .= '  <div class="row border-top">'.PHP_EOL;
@@ -57,7 +57,7 @@ class ProductCreateView implements \Vilija19\Core\Interfaces\RenderInterface
         $view .= '              <div class="row mb-3">'.PHP_EOL;
         $view .= '                <label for="size" class="col-sm-2 col-form-label">Size (MB)</label>'.PHP_EOL;
         $view .= '                <div class="col-sm-3">'.PHP_EOL;
-        $view .= '                    <input type="text" placeholder="Enter size" class="form-control required" id="size" name="size">'.PHP_EOL;
+        $view .= '                    <input type="text" placeholder="Please, provide size" class="form-control required" id="size" name="size">'.PHP_EOL;
         $view .= '                </div>'.PHP_EOL;
         $view .= '              </div>'.PHP_EOL;
         $view .= '              <div class="row mb-3"> *Product Description*</div>'.PHP_EOL;
@@ -66,19 +66,19 @@ class ProductCreateView implements \Vilija19\Core\Interfaces\RenderInterface
         $view .= '              <div class="row mb-3">'.PHP_EOL;
         $view .= '                <label for="height" class="col-sm-2 col-form-label">Height (CM)</label>'.PHP_EOL;
         $view .= '                <div class="col-sm-3">'.PHP_EOL;
-        $view .= '                    <input type="text" placeholder="Enter height" class="form-control required" id="height" name="height">'.PHP_EOL;
+        $view .= '                    <input type="text" placeholder="Please, provide height" class="form-control required" id="height" name="height">'.PHP_EOL;
         $view .= '                </div>'.PHP_EOL;
         $view .= '              </div>'.PHP_EOL;
         $view .= '              <div class="row mb-3">'.PHP_EOL;
         $view .= '                <label for="width" class="col-sm-2 col-form-label">Width (CM)</label>'.PHP_EOL;
         $view .= '                <div class="col-sm-3">'.PHP_EOL;
-        $view .= '                    <input type="text" placeholder="Enter width" class="form-control required" id="width" name="width">'.PHP_EOL;
+        $view .= '                    <input type="text" placeholder="Please, provide weight" class="form-control required" id="width" name="width">'.PHP_EOL;
         $view .= '                </div>'.PHP_EOL; 
         $view .= '              </div>'.PHP_EOL;
         $view .= '              <div class="row mb-3">'.PHP_EOL;
         $view .= '                <label for="length" class="col-sm-2 col-form-label">Length (CM)</label>'.PHP_EOL;
         $view .= '                <div class="col-sm-3">'.PHP_EOL;
-        $view .= '                    <input type="text" placeholder="Enter length" class="form-control required" id="length" name="length">'.PHP_EOL;
+        $view .= '                    <input type="text" placeholder="Please, provide length" class="form-control required" id="length" name="length">'.PHP_EOL;
         $view .= '                </div>'.PHP_EOL;
         $view .= '              </div>'.PHP_EOL;
         $view .= '              <div class="row mb-3"> *Product Description*</div>'.PHP_EOL;
@@ -87,7 +87,7 @@ class ProductCreateView implements \Vilija19\Core\Interfaces\RenderInterface
         $view .= '              <div class="row mb-3">'.PHP_EOL;
         $view .= '                <label for="weight" class="col-sm-2 col-form-label">Weight (KG)</label>'.PHP_EOL;
         $view .= '                <div class="col-sm-3">'.PHP_EOL;
-        $view .= '                    <input type="text" placeholder="Enter weight" class="form-control required" id="weight" name="weight">'.PHP_EOL;
+        $view .= '                    <input type="text" placeholder="Please, provide weight" class="form-control required" id="weight" name="weight">'.PHP_EOL;
         $view .= '                </div>'.PHP_EOL;
         $view .= '              </div>'.PHP_EOL;
         $view .= '              <div id="DVD" class="row mb-3"> *Product Description*</div>'.PHP_EOL;
@@ -142,11 +142,11 @@ class ProductCreateView implements \Vilija19\Core\Interfaces\RenderInterface
                                     let re = fieldsRegex.find(x => x.name == item.attributes.name.value);
                                     if(isValid == true) {
                                         if(item.value == \'\') {
-                                            alert(\'Please enter a \' + item.attributes.placeholder.value );
+                                            alert(\'Please, submit required data for \' + item.attributes.name.value );
                                             isValid = false;
                                         }else if(re != undefined && !re.regex.test(item.value)){
                                             isValid = false;
-                                            alert(\'provide the data of indicated type for a \' + item.attributes.placeholder.value );
+                                            alert(\'provide the data of indicated type for \' + item.attributes.name.value );
                                         }
                                     }
                                 });
