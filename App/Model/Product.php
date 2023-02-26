@@ -29,9 +29,9 @@ abstract class Product extends ModelAbstract
     
     public function __construct($data=[])
     {
-        if (!$data['sku'] || !$data['name']) {
-            throw new GetComponentException("Not enought data", 1);
-        }
+        // if (!$data['sku'] || !$data['name']) {
+        //     throw new GetComponentException("Not enought data", 1);
+        // }
         $this->id = $data['id'] ?? null;
         $this->sku = $data['sku'] ?? '';
         $this->name = $data['name'] ?? '';
@@ -44,7 +44,13 @@ abstract class Product extends ModelAbstract
 
     public function create(array $data = []): void
     {
-        $id = $this->orm->create($this->name, $data);
+        $this->sku = $data['sku'];
+        $this->name = $data['name'];
+        $this->price = $data['price'];
+        $this->status = $data['status'] ?? 1;
+        $this->quantity = $data['quantity'] ?? 999;
+        $this->type = $data['type'];
+        $id = $this->orm->create($data);
     }
     
     public function update(int $id, array $data = []): void
@@ -79,9 +85,12 @@ abstract class Product extends ModelAbstract
 
     public function attributes(): void
     {
+        if (!$this->id) {
+            return;
+        }
         $orm = application::getApp()->getComponent('orm');
         $orm->setModel(\Vilija19\App\Model\ProductAttribute::class);
-        foreach ($orm->getMany($this->id) as $attribute) {
+        foreach ($orm->get($this->id)->all() as $attribute) {
             $this->attributes[$attribute->name] = $attribute; 
         }
     }

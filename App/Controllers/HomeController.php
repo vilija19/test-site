@@ -20,7 +20,7 @@ class HomeController
 
         $orm = application::getApp()->getComponent('orm');
         $orm->setModel(\Vilija19\App\Model\Product::class);
-        $data['products'] = $orm->getAll();
+        $data['products'] = $orm->get()->all();
 
         // $this->responce->setOutput('HeaderView', $data);
         // $data['header'] = 'test';

@@ -40,6 +40,8 @@ class DataBase implements \Vilija19\Core\Interfaces\StorageInterface
      */
     protected $table;
 
+    protected $result;
+
     private function __construct(array $arguments = [])
     {
         $this->errors = [];
@@ -64,40 +66,55 @@ class DataBase implements \Vilija19\Core\Interfaces\StorageInterface
         $this->table = $table;
     }
 
-    public function getAll(): array
+    public function get($id): object
     {
         $sql = 'SELECT * FROM ' . $this->table;
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        return $result;
-    }
-    
-    public function getOne($id): array
-    {
-        $sql = 'SELECT * FROM ' . $this->table . ' WHERE id = :id';
+        if ($id) {
+            $sql .= ' WHERE id = :id';
+        }
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute( ['id' => $id]);
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        return $result;
+        return $stmt;
     }
 
-    public function get($id): array
-    {
-        $sql = 'SELECT * FROM ' . $this->table . ' WHERE id = :id';
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute( ['id' => $id]);
-        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        return $result;
-    }
-
-    public function getByField(string $field, $value): array
+    public function getByField(string $field, $value): object
     {
         $sql = 'SELECT * FROM ' . $this->table . ' WHERE ' . $field . ' = :value';
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute( ['value' => $value]);
-        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $stmt;
+    }
+
+    public function create(array $data): int
+    {
+        $sql = 'INSERT INTO ' . $this->table . ' (';
+        $sql .= implode(', ', array_keys($data));
+        $sql .= ') VALUES (';
+        $sql .= ':' . implode(', :', array_keys($data));
+        $sql .= ')';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($data);
+        $id = $this->pdo->lastInsertId();
+        return $id;
+    }
+
+    public function one($stmt): array
+    {
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if (!is_array($result)) {
+            $result = [];
+        }
         return $result;
+    }
+
+    public function all($stmt): array
+    {
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        if (!is_array($result)) {
+            $result = [];
+        }
+        return $result;        
     }
 
 }

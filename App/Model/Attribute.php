@@ -43,11 +43,6 @@ class Attribute extends ModelAbstract
         return $this->orm->read($this->name, $id);
     }
 
-    public function getAll(): array
-    {
-        $products = $this->orm->getAll();
-        return $products;
-    }
 
     public function delete(int $id): void
     {

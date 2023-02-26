@@ -22,12 +22,23 @@ class Dvd extends Product
         return $this->attributes;
     }
 
+    public function create(array $data = []): void
+    {
+        $this->sku = $data['sku'];
+        $this->name = $data['name'];
+        $this->price = $data['price'];
+        $this->status = $data['status'] ?? 1;
+        $this->quantity = $data['quantity'] ?? 999;
+        $this->type = $data['type'];
+        $this->setAttributes($data['attributes']);
+        return;
+    }
+
     public function setAttributes(array $attributes = []): void
     {
-        foreach ($this->attributes as $attrName => $value) {
-            if (isset($attributes[$attrName])) {
-                $this->attributes[$attrName] = $value;
-            }
+        foreach ($attributes as $attrName => $value) {
+            $this->attributes[$attrName] = $value;
         }
     }
+
 }

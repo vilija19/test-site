@@ -34,9 +34,7 @@ class ProductAttribute extends ModelAbstract
     {
         $orm = application::getApp()->getComponent('orm');
         $orm->setModel(\Vilija19\App\Model\Attribute::class);
-        $attr = $orm->get($this->attribute_id);
-        $t = $attr->name; 
-        $this->attribute = $orm->get($this->attribute_id);
+        $this->attribute = $orm->get($this->attribute_id)->one();
     }
 
     public function create(array $data = []): void

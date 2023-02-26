@@ -7,6 +7,7 @@ use Vilija19\Core\Application;
 class ProductController
 {
     private $responce;
+    private $errors;
 
     public function __construct()
     {
@@ -18,17 +19,29 @@ class ProductController
         $data['title'] = 'Add Product';
         $data['footer_text'] = 'Scanduweb Test assignment';
 
-        $orm = application::getApp()->getComponent('orm');
-        $orm->setModel(\Vilija19\App\Model\Product::class);
+        // $orm = application::getApp()->getComponent('orm');
+        // $orm->setModel(\Vilija19\App\Model\Attribute::class);
 
         $this->responce->setOutput('ProductCreateView', $data);
     }
     public function store()
     {
-        // $orm = application::getApp()->getComponent('orm');
-        // $orm->setModel(\Vilija19\App\Model\Product::class);
+        $data['title'] = 'Add Product';
 
-        // $orm->create($_POST);
+        if ($_POST && !$this->validate($_POST)) {
+            $data['errors'] = $this->errors;
+            echo $data['errors']['sku'];
+            $this->responce->setOutput('ProductCreateView', $data);
+            return;
+        }
+        $model = 'Vilija19\\App\\Model\\' . $_POST['type'];
+
+        $product = new $model();
+        $product->create($_POST);
+
+        $orm = application::getApp()->getComponent('orm');
+        $orm->setModel($model);        
+        $orm->create($product);
         echo 'Product created'; die;
 
         $this->responce->redirect('/');
@@ -51,17 +64,27 @@ class ProductController
 
         $this->responce->redirect('/');
     }
-    protected function validate($data)
+    /**
+     * @param array $data
+     * @return bool
+     */
+    protected function validate($data): bool
     {
-        $errors = [];
+
         if (empty($data['sku'])) {
-            $errors['sku'] = 'SKU is required';
+            $this->errors['sku'] = 'SKU is required';
+        }
+        if (empty($data['type'])) {
+            $this->errors['type'] = 'Type is required';
         }
         $orm = application::getApp()->getComponent('orm');
         $orm->setModel(\Vilija19\App\Model\Product::class);
-        $product = $orm->getByField('sku', $data['sku']);
+        $products = $orm->getByField('sku', $data['sku'])->one();
+        if (!empty($products)) {
+            $this->errors['sku'] = 'SKU already exists';
+        }
 
-        return $errors;
+        return !$this->errors;
     }
 
 }
