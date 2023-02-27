@@ -4,11 +4,14 @@ return [
     'app_name' => 'Test framework',
     'components' => [
         'responce' => [
-            'factory' => \Vilija19\Core\Components\ResponceFactory::class             
+            'factory' => \Vilija19\Core\Components\Responce\ResponceFactory::class             
         ],
         'orm' => [
             'factory' => \Vilija19\Core\Components\Orm\SimpleOrmFactory::class            
         ],
+        'template' => [
+            'factory' => \Vilija19\Core\Components\Template\TemplateFactory::class            
+        ],        
         'router' => [
             'factory' => \Vilija19\Core\Components\Routing\RouterFactory::class,
             'arguments' => [

@@ -1,6 +1,6 @@
 <?php
 
-namespace Vilija19\Core\Components;
+namespace Vilija19\Core\Components\Responce;
 
 use Vilija19\Core\Components\ComponentFactory;
 

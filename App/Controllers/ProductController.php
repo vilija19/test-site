@@ -24,6 +24,7 @@ class ProductController
 
         $this->responce->setOutput('ProductCreateView', $data);
     }
+    
     public function store()
     {
 //        $this->responce->redirect('/');

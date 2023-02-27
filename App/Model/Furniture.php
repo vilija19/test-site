@@ -24,9 +24,9 @@ class Furniture extends Product
 
     protected function mutateAttribures(): void
     {
-        if (isset($this->attributes['dimensions'])) {
-            $attribute = implode('x', $this->attributes['dimensions']);
-            $this->attributes['dimensions'] = $attribute;
+        if (isset($this->attributes['dimension'])) {
+            $attribute = implode('x', $this->attributes['dimension']);
+            $this->attributes['dimension'] = $attribute;
         }
     }
 }
