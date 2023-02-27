@@ -44,13 +44,46 @@ abstract class Product extends ModelAbstract
 
     public function create(array $data = []): void
     {
-        $this->sku = $data['sku'];
-        $this->name = $data['name'];
-        $this->price = $data['price'];
-        $this->status = $data['status'] ?? 1;
-        $this->quantity = $data['quantity'] ?? 999;
-        $this->type = $data['type'];
-        $id = $this->orm->create($data);
+        if (isset($data['attributes'])) {
+            $this->attributes = $data['attributes'];
+            unset($data['attributes']);
+        }
+            
+        // Create product
+        $orm = application::getApp()->getComponent('orm');
+        $orm->setModel($this);       
+        $this->id = $orm->save($data);
+
+        // Prepare product's attributes
+        $data = [];
+        $orm->setModel(\Vilija19\App\Model\Attribute::class);
+        $this->mutateAttribures();
+        foreach ($this->attributes as $attrName => $attributeData) {
+            $attribute = $orm->getByField('name', ucfirst($attrName))->one();
+            $attr['id'] = $this->id;
+            $attr['attribute_id'] = (int)$attribute->id;
+            $attr['value'] = $attributeData;
+            $attr['is_serialized'] = 0;
+            $data[] = $attr;
+        }
+        // Create product attributes
+        $orm->setModel(\Vilija19\App\Model\ProductAttribute::class);
+        foreach ($data as $attribute) {
+            $orm->save($attribute);
+        }
+        return;
+    }
+
+    protected function mutateAttribures(): void
+    {
+        return;
+    }
+
+    public function setAttributes(array $attributes = []): void
+    {
+        foreach ($attributes as $attrName => $value) {
+            $this->attributes[$attrName] = $value;
+        }
     }
     
     public function update(int $id, array $data = []): void
@@ -63,24 +96,9 @@ abstract class Product extends ModelAbstract
         return $this->orm->get($id);
     }
 
-    public function getAll(): array
-    {
-        $products = $this->orm->getAll();
-        return $products;
-    }
-
     public function getAttributes(): array
     {
         return $this->attributes;
-    }
-
-    public function setAttributes(array $attributes = []): void
-    {
-        foreach ($this->attributes as $attrName => $value) {
-            if (isset($attributes[$attrName])) {
-                $this->attributes[$attrName] = $value;
-            }
-        }
     }
 
     public function attributes(): void
@@ -95,9 +113,22 @@ abstract class Product extends ModelAbstract
         }
     }
 
+    public static function massDelete(array $ids = []): void
+    {
+        foreach ($ids as $id) {
+            self::delete($id);
+        }
+    }
+
     public function delete(int $id): void
     {
-        $this->orm->delete($this->name, $id);
+        // Delete product
+        $orm = application::getApp()->getComponent('orm');
+        $orm->setModel(\Vilija19\App\Model\Product::class);  
+        $orm->delete($id);
+        // Delete product attributes
+        $orm->setModel(\Vilija19\App\Model\ProductAttribute::class);
+        $orm->delete($id);
     }
 
 }

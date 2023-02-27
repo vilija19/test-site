@@ -28,4 +28,12 @@ class Responce implements \Vilija19\Core\Interfaces\ResponceInterface
         $viewFooter->render();
     }
 
+    public function redirect(string $url)
+    {
+        if (!headers_sent()) {
+            header('Location: ' . $url);
+            exit;
+        }        
+    }
+
 }

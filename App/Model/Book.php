@@ -14,6 +14,7 @@ class Book extends Product
     public function __construct($data=[])
     {
         parent::__construct($data);
+        $this->type = 'Book';
         $this->attributes();
     }
 
@@ -22,12 +23,4 @@ class Book extends Product
         return $this->attributes;
     }
 
-    public function setAttributes(array $attributes = []): void
-    {
-        foreach ($this->attributes as $attrName => $value) {
-            if (isset($attributes[$attrName])) {
-                $this->attributes[$attrName] = $value;
-            }
-        }
-    }
 }

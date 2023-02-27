@@ -22,11 +22,14 @@ class HomeController
         $orm->setModel(\Vilija19\App\Model\Product::class);
         $data['products'] = $orm->get()->all();
 
-        // $this->responce->setOutput('HeaderView', $data);
-        // $data['header'] = 'test';
-        // $data['footer'] = 'test';
-
         $this->responce->setOutput('HomeView', $data);
 
+    }
+
+    public function delete()
+    {
+        \Vilija19\App\Model\Product::massDelete($_POST['selected-products']);
+
+        $this->responce->redirect('/');
     }
 }

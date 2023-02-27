@@ -14,6 +14,7 @@ class Dvd extends Product
     public function __construct($data=[])
     {
         parent::__construct($data);
+        $this->type = 'Dvd';
         $this->attributes();
     }
 
@@ -22,23 +23,6 @@ class Dvd extends Product
         return $this->attributes;
     }
 
-    public function create(array $data = []): void
-    {
-        $this->sku = $data['sku'];
-        $this->name = $data['name'];
-        $this->price = $data['price'];
-        $this->status = $data['status'] ?? 1;
-        $this->quantity = $data['quantity'] ?? 999;
-        $this->type = $data['type'];
-        $this->setAttributes($data['attributes']);
-        return;
-    }
 
-    public function setAttributes(array $attributes = []): void
-    {
-        foreach ($attributes as $attrName => $value) {
-            $this->attributes[$attrName] = $value;
-        }
-    }
 
 }

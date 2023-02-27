@@ -26,8 +26,7 @@ class ProductController
     }
     public function store()
     {
-        $data['title'] = 'Add Product';
-
+//        $this->responce->redirect('/');
         if ($_POST && !$this->validate($_POST)) {
             $data['errors'] = $this->errors;
             echo $data['errors']['sku'];
@@ -39,11 +38,6 @@ class ProductController
         $product = new $model();
         $product->create($_POST);
 
-        $orm = application::getApp()->getComponent('orm');
-        $orm->setModel($model);        
-        $orm->create($product);
-        echo 'Product created'; die;
-
         $this->responce->redirect('/');
     }
     public function delete()
@@ -52,15 +46,6 @@ class ProductController
         $orm->setModel(\Vilija19\App\Model\Product::class);
 
         $orm->delete($_POST['id']);
-
-        $this->responce->redirect('/');
-    }
-    public function massDelete()
-    {
-        $orm = application::getApp()->getComponent('orm');
-        $orm->setModel(\Vilija19\App\Model\Product::class);
-
-        $orm->massDelete($_POST['select-product']);
 
         $this->responce->redirect('/');
     }

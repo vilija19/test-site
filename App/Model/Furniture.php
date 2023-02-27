@@ -22,12 +22,11 @@ class Furniture extends Product
         return $this->attributes;
     }
 
-    public function setAttributes(array $attributes = []): void
+    protected function mutateAttribures(): void
     {
-        foreach ($this->attributes as $attrName => $value) {
-            if (isset($attributes[$attrName])) {
-                $this->attributes[$attrName] = $value;
-            }
+        if (isset($this->attributes['dimensions'])) {
+            $attribute = implode('x', $this->attributes['dimensions']);
+            $this->attributes['dimensions'] = $attribute;
         }
     }
 }

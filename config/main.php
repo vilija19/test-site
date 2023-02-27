@@ -14,6 +14,7 @@ return [
             'arguments' => [
                 'routes' => array(
                     '/' => [ \Vilija19\App\Controllers\HomeController::class , 'index'],
+                    '/delete' => [ \Vilija19\App\Controllers\HomeController::class , 'delete'],
                     '/add-product' => [ \Vilija19\App\Controllers\ProductController::class , 'create'],
                     '/add-product/store' => [ \Vilija19\App\Controllers\ProductController::class , 'store'],
                 )

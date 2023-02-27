@@ -10,7 +10,8 @@ use Vilija19\App\Model\Product;
 use Vilija19\Core\Application;
 
 /**
- * Класс  SimpleOrm
+ * Class  SimpleOrm
+ * Uses for interaction objects of different classes with storage (can be different types of storages)
  */
 class SimpleOrm 
 {
@@ -51,35 +52,12 @@ class SimpleOrm
         $this->storageObjectName = $this->inspectClass($model)['properties']['storageObjectName'];
         $this->storage->setStorageObject($this->storageObjectName);
     }
-    public function create(Product $product): void
+    public function save(array $data): int
     {
-        // Create product
-        $data = [];
-        $data['sku'] = $product->sku;
-        $data['name'] = $product->name;
-        $data['price'] = $product->price;
-        $data['status'] = $product->status;
-        $data['quantity'] = $product->quantity;
-        $data['type'] = $product->type;
-        $product->id = $this->storage->create($data);
 
-        // Prepare product attributes
-        $data = [];
-        $this->setModel(\Vilija19\App\Model\Attribute::class);
-        foreach ($product->attributes as $attrName => $attributeData) {
-            $attribute = $this->getByField('name', ucfirst($attrName))->one();
-            $attr['id'] = $product->id;
-            $attr['attribute_id'] = (int)$attribute->id;
-            $attr['value'] = $attributeData;
-            $attr['is_serialized'] = 0;
-            $data[] = $attr;
-        }
-        // Create product attributes
-        $this->setModel(\Vilija19\App\Model\ProductAttribute::class);
-        foreach ($data as $attribute) {
-            $this->storage->create($attribute);
-        }
-        return;
+        $id = $this->storage->create($data);
+
+        return $id;
     }
     /**
      * Get item/items by id. If id is not set, get all items
@@ -107,12 +85,22 @@ class SimpleOrm
         return $this;
     }
     /**
+     * Delete item
+     *
+     * @param int $id
+     * @return void
+     */
+    public function delete(int $id): void
+    {
+        $this->storage->delete($id);
+    }
+    /**
      * Create object from data
      *
      * @param array $data
      * @return object,null
      */
-    private function createObject(array $data = []): ?object
+    private function getObject(array $data = []): ?object
     {
         $object = null;
 
@@ -151,7 +139,7 @@ class SimpleOrm
     public function one()
     {
         $item = $this->storage->one($this->data);
-        return $this->createObject($item);
+        return $this->getObject($item);
     }
     /**
      * Get all items
@@ -164,7 +152,7 @@ class SimpleOrm
         $objects = [];
         $items = $this->storage->all($this->data);
         foreach ($items as $item) {
-            $objects[] = $this->createObject($item);
+            $objects[] = $this->getObject($item);
         }
         return $objects;        
     }    

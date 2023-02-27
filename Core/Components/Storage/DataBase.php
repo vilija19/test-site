@@ -86,6 +86,13 @@ class DataBase implements \Vilija19\Core\Interfaces\StorageInterface
         return $stmt;
     }
 
+    public function delete($id): void
+    {
+        $sql = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute( ['id' => $id]);
+    }
+
     public function create(array $data): int
     {
         $sql = 'INSERT INTO ' . $this->table . ' (';
