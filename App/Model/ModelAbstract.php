@@ -18,9 +18,4 @@ abstract class ModelAbstract
         }
     }
 
-    abstract public function create(array $data = []): void;
-    abstract public function update(int $id, array $data = []): void;
-    abstract public function get(int $id): array;
-    abstract public function delete(int $id): void;
-
 }

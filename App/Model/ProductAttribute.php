@@ -5,6 +5,8 @@ namespace Vilija19\App\Model;
 use Vilija19\Core\Application;
 
 /**
+ * Class ProductAttribute to link product with attribute
+ * 
  * @property int $id // this is the product_id
  * @property int $attribute_id
  * @property string $value
@@ -29,38 +31,16 @@ class ProductAttribute extends ModelAbstract
         $this->attribute();
         $this->name = $this->attribute->name;          
     }
-
+    /**
+     * Get attribute object for this product attribute
+     * 
+     * @return void
+     */
     protected function attribute()
     {
         $orm = application::getApp()->getComponent('orm');
         $orm->setModel(\Vilija19\App\Model\Attribute::class);
         $this->attribute = $orm->get($this->attribute_id)->one();
-    }
-
-    public function create(array $data = []): void
-    {
-        $id = $this->orm->create($this->name, $data);
-    }
-    
-    public function update(int $id, array $data = []): void
-    {
-        $this->orm->write($this->name, $id, $data);
-    }
-
-    public function get(int $product_id): array
-    {
-        return $this->orm->get($product_id);
-    }
-
-    public function getAll(): array
-    {
-        $products = $this->orm->getAll();
-        return $products;
-    }
-
-    public function delete(int $id): void
-    {
-        $this->orm->delete($this->name, $id);
     }
 
 }

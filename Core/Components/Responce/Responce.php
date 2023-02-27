@@ -6,7 +6,6 @@
 
 namespace Vilija19\Core\Components\Responce;
 
-use \Vilija19\Core\Exceptions\GetComponentException;
 use Vilija19\Core\Application;
 
 /**

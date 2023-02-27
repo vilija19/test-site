@@ -3,10 +3,10 @@
 namespace Vilija19\App\Model;
 
 use Vilija19\Core\Application;
-use \Vilija19\Core\Exceptions\GetComponentException;
-
 
 /**
+ * Base class Product
+ * 
  * @property int $id
  * @property string $sku
  * @property string $name
@@ -15,7 +15,7 @@ use \Vilija19\Core\Exceptions\GetComponentException;
  * @property int $quantity
  * @property string $type
  */
-abstract class Product extends ModelAbstract
+class Product extends ModelAbstract
 {
     protected $storageObjectName = 'product';
     protected $id;
@@ -29,9 +29,6 @@ abstract class Product extends ModelAbstract
     
     public function __construct($data=[])
     {
-        // if (!$data['sku'] || !$data['name']) {
-        //     throw new GetComponentException("Not enought data", 1);
-        // }
         $this->id = $data['id'] ?? null;
         $this->sku = $data['sku'] ?? '';
         $this->name = $data['name'] ?? '';
@@ -85,22 +82,16 @@ abstract class Product extends ModelAbstract
             $this->attributes[$attrName] = $value;
         }
     }
-    
-    public function update(int $id, array $data = []): void
-    {
-        $this->orm->write($this->name, $id, $data);
-    }
-
-    public function get(int $id): array
-    {
-        return $this->orm->get($id);
-    }
 
     public function getAttributes(): array
     {
         return $this->attributes;
     }
-
+    /**
+     * Get product attributes and set them to $this->attributes with attribute name as key
+     * 
+     * @return void
+     */
     public function attributes(): void
     {
         if (!$this->id) {
@@ -112,14 +103,24 @@ abstract class Product extends ModelAbstract
             $this->attributes[$attribute->name] = $attribute; 
         }
     }
-
+    /**
+     * Delete product and product attributes for given ids
+     * 
+     * @param array $ids
+     * @return void
+     */
     public static function massDelete(array $ids = []): void
     {
         foreach ($ids as $id) {
             self::delete($id);
         }
     }
-
+    /**
+     * Delete product and product attributes for given id
+     * 
+     * @param int $id
+     * @return void
+     */
     public function delete(int $id): void
     {
         // Delete product

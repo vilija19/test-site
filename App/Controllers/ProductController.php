@@ -13,21 +13,21 @@ class ProductController
     {
         $this->responce = Application::getApp()->getComponent('responce');
     }
-
-    public function create()
+    /**
+     * Show product create form
+     */
+    public function create(): void
     {
         $data['title'] = 'Add Product';
         $data['footer_text'] = 'Scanduweb Test assignment';
 
-        // $orm = application::getApp()->getComponent('orm');
-        // $orm->setModel(\Vilija19\App\Model\Attribute::class);
-
         $this->responce->setOutput('ProductCreateView', $data);
     }
-    
-    public function store()
+    /**
+     * Insert new product in storage
+     */
+    public function store(): void
     {
-//        $this->responce->redirect('/');
         if ($_POST && !$this->validate($_POST)) {
             $data['errors'] = $this->errors;
             echo $data['errors']['sku'];
@@ -38,15 +38,6 @@ class ProductController
 
         $product = new $model();
         $product->create($_POST);
-
-        $this->responce->redirect('/');
-    }
-    public function delete()
-    {
-        $orm = application::getApp()->getComponent('orm');
-        $orm->setModel(\Vilija19\App\Model\Product::class);
-
-        $orm->delete($_POST['id']);
 
         $this->responce->redirect('/');
     }
