@@ -111,7 +111,7 @@
                 let isValid = true;
                 let fieldsRegex = [
                     {name: 'name', regex: /^[a-zA-Z0-9 ]{3,30}$/},
-                    {name: 'sku', regex: /^[a-zA-Z0-9]{3,30}$/},
+                    {name: 'sku', regex: /^[a-zA-Z0-9\-]{3,30}$/},
                     {name: 'price', regex: /^[0-9]{1,10}$/},
                     {name: 'attributes[size]', regex: /^[0-9]{1,10}$/},
                     {name: 'attributes[dimension][height]', regex: /^[0-9]{1,10}$/},

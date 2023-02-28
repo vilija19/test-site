@@ -19,7 +19,6 @@ class Attribute extends ModelAbstract
     public function __construct($data=[])
     {
         $this->id = $data['id'];
-        $this->sku = $data['sku'];
         $this->name = $data['name'];
         $this->value_unit = $data['value_unit'];
         $this->sort_order = $data['sort_order'];       

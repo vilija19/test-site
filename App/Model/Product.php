@@ -121,7 +121,7 @@ class Product extends ModelAbstract implements \Vilija19\Core\Interfaces\Product
      * @param int $id
      * @return void
      */
-    public function delete(int $id): void
+    public static function delete(int $id): void
     {
         // Delete product
         $orm = application::getApp()->getComponent('orm');

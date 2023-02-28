@@ -73,7 +73,12 @@ class DataBase implements \Vilija19\Core\Interfaces\StorageInterface
             $sql .= ' WHERE id = :id';
         }
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute( ['id' => $id]);
+
+        if ($id) {
+            $stmt->execute( ['id' => $id]);
+        } else {
+            $stmt->execute();
+        }
         return $stmt;
     }
 
