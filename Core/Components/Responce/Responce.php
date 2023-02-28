@@ -9,12 +9,25 @@ namespace Vilija19\Core\Components\Responce;
 use Vilija19\Core\Application;
 
 /**
- * Класс  Responce
+ * Class Responce
  */
 class Responce implements \Vilija19\Core\Interfaces\ResponceInterface
 {
+    /**
+     * Property stores the HTML output
+     *  
+     * @var string 
+     * @access protected
+     */
     protected $output;
 
+    /**
+     * Method create the HTML output from the templates
+     * 
+     * @param string $view
+     * @param array $data
+     * @return void
+     */
     public function setOutput(string $view, $data = []): void
     {
         $output = '';
@@ -26,15 +39,25 @@ class Responce implements \Vilija19\Core\Interfaces\ResponceInterface
         $this->output();
     }
 
-    public function redirect(string $url)
+    /**
+     * Method redirects to the specified URL
+     * 
+     * @param string $url
+     * @return void
+     */
+    public function redirect(string $url): void
     {
         if (!headers_sent()) {
             header('Location: ' . $url);
             exit;
         }        
     }
-
-    public function output()
+    /**
+     * Method outputs the HTML code
+     * 
+     * @return void
+     */
+    public function output(): void
     {
         echo $this->output;
     }

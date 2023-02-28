@@ -53,7 +53,7 @@ class DataBase implements \Vilija19\Core\Interfaces\StorageInterface
         }
     }
 
-    public static function getInstance(array $arguments = [])
+    public static function getInstance(array $arguments = []):object
     {
         if (self::$instance === null) {
             self::$instance = new self($arguments);
@@ -77,7 +77,7 @@ class DataBase implements \Vilija19\Core\Interfaces\StorageInterface
         return $stmt;
     }
 
-    public function getByField(string $field, $value): object
+    public function getByField(string $field, string $value): object
     {
         $sql = 'SELECT * FROM ' . $this->table . ' WHERE ' . $field . ' = :value';
         $stmt = $this->pdo->prepare($sql);
@@ -86,7 +86,7 @@ class DataBase implements \Vilija19\Core\Interfaces\StorageInterface
         return $stmt;
     }
 
-    public function delete($id): void
+    public function delete(int $id): void
     {
         $sql = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
         $stmt = $this->pdo->prepare($sql);
@@ -106,7 +106,7 @@ class DataBase implements \Vilija19\Core\Interfaces\StorageInterface
         return $id;
     }
 
-    public function one($stmt): array
+    public function one(object $stmt): array
     {
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         if (!is_array($result)) {
@@ -115,7 +115,7 @@ class DataBase implements \Vilija19\Core\Interfaces\StorageInterface
         return $result;
     }
 
-    public function all($stmt): array
+    public function all(object $stmt): array
     {
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         if (!is_array($result)) {

@@ -4,8 +4,9 @@ namespace  Vilija19\Core\Interfaces;
 
 interface ProductInterface
 {
-    public  function write(int $id, array $data = []): void;
-    public  function read(int $id): array;
-    public  function readAll(): array;
-    public  function delete(int $id): void;
+    public function create(array $data = []): void;
+    public function setAttributes(array $attributes = []): void;
+    public function getAttributes(): array;
+    public static function massDelete(array $ids = []): void;
+    public function delete(int $id): void;
 }

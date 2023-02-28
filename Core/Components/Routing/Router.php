@@ -9,13 +9,13 @@
 namespace Vilija19\Core\Components\Routing;
 
 /**
- * Класс  Router
+ * Class Router
  */
 class Router implements \Vilija19\Core\Interfaces\RouteInterface
 {
     /**
-     * Свойство хранящее значение типа array.
-     * Этот массив хранит соответствие роута вызываемым обьектам (например контроллерам)
+     * Property stores the array of routes
+     * This array stores the correspondence of the route to the callable objects (for example, controllers)
      * examples:
      *  '/home/index' => [ \Vilija19\App\Controllers\HomeController::class , 'index'],
      *  '/product/show'=> function () { echo('Run callback'); }
@@ -24,33 +24,33 @@ class Router implements \Vilija19\Core\Interfaces\RouteInterface
      */
     protected $routes;
     /**
-     * Свойство хранящее значение типа обьект
-     * Здесь храним эксемпляр контроллера, который будет обрабатывать роут
+     * Property stores the object
+     * Here we store the instance of the controller that will process the route
      * @var Object
      * @access protected
      */
     protected $controller;
     /**
-     * Свойство хранящее значение типа строка
-     * Здесь храним название метода контроллера, который будет обрабатывать роут
+     * Property stores the string value
+     * Here we store the name of the controller method that will process the route
      * @var string
      * @access protected
      */    
     protected $method;
     /**
-     * Свойство хранящее вызываемый объект.
+     * Property stores the called object
      * @var callable
      * @access protected
      */
     protected $outObj;
     /**
-     * Свойство хранящее строку с параметрами для вызываемого метода.
+     * Property stores the string with parameters for the called method
      * @var string
      * @access protected
      */
     protected $parameters = '';
     /**
-     * Свойство хранит массив ошибок
+     * Property stores the array of errors
      * @var array 
      * @access protected
      */
@@ -61,8 +61,8 @@ class Router implements \Vilija19\Core\Interfaces\RouteInterface
     {
         $this->routes = $arguments['routes'] ?? [];
         /**
-         * Роут notfound нужен для работы данного роутера.
-         * Если его нет - добавляем.
+         * Route notfound is needed for the operation of this router.
+         * If it is not - add it.
          */
         if (!isset($routes['/notfound'])) {
             $this->addRoute('/notfound', function ($messages=[]) { echo('Page not found <br>');
@@ -74,8 +74,8 @@ class Router implements \Vilija19\Core\Interfaces\RouteInterface
     }
 
     /**
-     * Этот метод реализовывает интерфейс RouteInterface из пакета Vilija19\Core 
-     * @param string $uri  - роут.
+     * This method implements the RouteInterface interface
+     * @param string $uri  - route.
      * @return callable 
      */    
     public function route(string $uri): callable
@@ -128,8 +128,8 @@ class Router implements \Vilija19\Core\Interfaces\RouteInterface
     }
 
     /**
-     * Этот метод дает возможность добавлять обработчики роутов
-     * @var string $path - роут.
+     * this method allows you to add route handlers
+     * @var string $path - route.
      * @var callable $action - обработчик
      */
     public function addRoute(string $path, $action)

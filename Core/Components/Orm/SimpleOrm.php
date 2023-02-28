@@ -6,14 +6,13 @@
 
 namespace Vilija19\Core\Components\Orm;
 
-use Vilija19\App\Model\Product;
 use Vilija19\Core\Application;
 
 /**
  * Class  SimpleOrm
  * Uses for interaction objects of different classes with storage (can be different types of storages)
  */
-class SimpleOrm 
+class SimpleOrm implements \Vilija19\Core\Interfaces\OrmInterface
 {
     /**
      * Storage object 
@@ -46,18 +45,34 @@ class SimpleOrm
      * @param string $model
      * @return void
      */
-    public function setModel($model): void
+    public function setModel(string $model): void
     {
         $this->model = $model;
         $this->storageObjectName = $this->inspectClass($model)['properties']['storageObjectName'];
         $this->storage->setStorageObject($this->storageObjectName);
     }
+    /**
+     * Inserting new item to storage
+     *
+     * @param array $data
+     * @return int $id of new item
+     */
     public function save(array $data): int
     {
 
         $id = $this->storage->create($data);
 
         return $id;
+    }
+    /**
+     * Update item in storage
+     *
+     * @param array $data
+     * @return void
+     */
+    public function update(int $id, array $data): void
+    {
+        // TODO: Implement update() method.
     }
     /**
      * Get item/items by id. If id is not set, get all items
@@ -136,7 +151,7 @@ class SimpleOrm
      * @param void
      * @return object,null
      */
-    public function one()
+    public function one(): ?object
     {
         $item = $this->storage->one($this->data);
         return $this->getObject($item);
@@ -147,7 +162,7 @@ class SimpleOrm
      * @param void
      * @return array
      */
-    public function all()
+    public function all(): array
     {
         $objects = [];
         $items = $this->storage->all($this->data);

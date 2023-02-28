@@ -15,7 +15,7 @@ use Vilija19\Core\Application;
  * @property int $quantity
  * @property string $type
  */
-class Product extends ModelAbstract
+class Product extends ModelAbstract implements \Vilija19\Core\Interfaces\ProductInterface
 {
     protected $storageObjectName = 'product';
     protected $id;
@@ -48,7 +48,7 @@ class Product extends ModelAbstract
             
         // Create product
         $orm = application::getApp()->getComponent('orm');
-        $orm->setModel($this);       
+        $orm->setModel(get_class($this));       
         $this->id = $orm->save($data);
 
         // Prepare product's attributes
@@ -92,7 +92,7 @@ class Product extends ModelAbstract
      * 
      * @return void
      */
-    public function attributes(): void
+    protected function attributes(): void
     {
         if (!$this->id) {
             return;

@@ -9,12 +9,18 @@ namespace Vilija19\Core\Components\Template;
 use \Vilija19\Core\Exceptions\GetComponentException;
 
 /**
- * Класс  Template
+ * Class Template
  */
 class Template implements \Vilija19\Core\Interfaces\TemplateInterface
 {
-
-    public function render(string $template, $data = []): string
+    /**
+     * Inserting data into the template
+     * 
+     * @var string $template
+     * @var array $data
+     * @return string 
+     */
+    public function render(string $template, array $data = []): string
     {
 		$file = dirname(__DIR__,3). '/App/View/' . $template . '.tpl';
         if (is_file($file)) {
