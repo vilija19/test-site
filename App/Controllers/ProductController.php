@@ -19,7 +19,6 @@ class ProductController
     public function create(): void
     {
         $data['title'] = 'Add Product';
-        $data['footer_text'] = 'Scanduweb Test assignment';
 
         $this->responce->setOutput('ProductCreateView', $data);
     }
@@ -28,6 +27,8 @@ class ProductController
      */
     public function store(): void
     {
+        $data['title'] = 'Add Product';
+
         if ($_POST && !$this->validate($_POST)) {
             $data['errors'] = $this->errors;
             echo $data['errors']['sku'];

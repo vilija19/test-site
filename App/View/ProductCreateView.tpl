@@ -1,5 +1,5 @@
     <div class="row align-items-center"> 
-        <div class="col-sm-10"><h1><?php echo $title; ?></h1></div> 
+        <div class="col-sm-10"><h1><?php echo $title ?? ''; ?></h1></div> 
         <div class="col-sm-2"> 
             <button type="button"  @click="submit" class="btn btn-primary">Save</button> 
             <a href="/" role="button" class="btn btn-danger">Cancel</a> 

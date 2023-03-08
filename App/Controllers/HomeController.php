@@ -16,8 +16,6 @@ class HomeController
     public function index()
     {
         $data['title'] = 'Product list';
-        $data['footer_text'] = 'Scanduweb Test assignment';
-
         $orm = Application::getApp()->getComponent('orm');
         $orm->setModel(\Vilija19\App\Model\Product::class);
         $data['products'] = $orm->get()->all();

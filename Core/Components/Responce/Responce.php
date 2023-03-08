@@ -32,9 +32,18 @@ class Responce implements \Vilija19\Core\Interfaces\ResponceInterface
     {
         $output = '';
         $template = Application::getApp()->getComponent('template');
-        $output .= $template->render('HeaderView', $data);
+
+        // Render header
+        $title = $data['title'] ?? '';
+        $header = new \Vilija19\App\Controllers\Header($title);
+        $output .= $header->index();
+
         $output .= $template->render($view, $data);
-        $output .= $template->render('FooterView', $data);
+
+        // Render footer
+        $footer = new \Vilija19\App\Controllers\Footer();
+        $output .= $footer->index();
+
         $this->output = $output;
         $this->output();
     }
